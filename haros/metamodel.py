@@ -26,8 +26,6 @@
 from collections import Counter
 import os
 
-import magic as file_cmd
-
 ###############################################################################
 # Notes
 ###############################################################################
@@ -378,8 +376,9 @@ class SourceFile(SourceObject):
         }
 
     def _get_language(self):
-        file_type = file_cmd.from_file(self.path).lower()
-        if file_type.startswith(self.CPP):
+        _, extension = os.path.splitext(self.path)
+        file_type = extension[1:].lower()
+        if file_type.endswith(self.CPP):
             return 'cpp'
         if self.PYTHON in file_type:
             return 'python'
